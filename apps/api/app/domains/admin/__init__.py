@@ -1,0 +1,1 @@
+"""Developer 5 domain: basic platform trust/admin stubs."""

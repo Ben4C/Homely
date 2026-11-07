@@ -1,0 +1,29 @@
+name: Homely starter checks
+on:
+  push:
+  pull_request:
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install API
+        run: pip install -e './apps/api[dev]'
+      - name: Test API
+        run: cd apps/api && pytest -q
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install web
+        run: cd apps/web && npm install
+      - name: Type check
+        run: cd apps/web && npm run typecheck
+      - name: Build
+        run: cd apps/web && npm run build

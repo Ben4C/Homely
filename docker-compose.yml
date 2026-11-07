@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: homely
+      POSTGRES_PASSWORD: homely_dev_only
+      POSTGRES_DB: homely
+    ports:
+      - "5432:5432"
+    volumes:
+      - homely_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U homely -d homely"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  homely_postgres:
