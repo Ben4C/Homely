@@ -28,6 +28,7 @@ def preview_pledge(request: PledgePreviewRequest) -> PledgePreviewResponse:
         raise HTTPException(400, "Pledge must be positive")
     return PledgePreviewResponse(
         campaign_id=request.campaign_id, amount_usd=amount,
+        designation=request.designation,
         message="Demo only: no donation was submitted, charged, reserved, or allocated.",
     )
 
@@ -39,12 +40,19 @@ def preview_pledge(request: PledgePreviewRequest) -> PledgePreviewResponse:
 def preview_allocations(request: AllocationPreviewRequest) -> AllocationPreviewResponse:
     remaining = usd(request.total_available_usd)
     result: list[AllocationLine] = []
-    for campaign in SYNTHETIC_CAMPAIGNS:
+    campaigns = SYNTHETIC_CAMPAIGNS
+    designated = set(request.designated_campaign_ids)
+    if designated:
+        unknown = designated - {campaign.id for campaign in campaigns}
+        if unknown:
+            raise HTTPException(404, "Designated campaign not found")
+        campaigns = [campaign for campaign in campaigns if campaign.id in designated]
+    for campaign in campaigns:
         proposed = min(remaining, campaign.remaining_project_gap_usd)
         if proposed:
             result.append(AllocationLine(
                 campaign_id=campaign.id, suggested_usd=proposed,
-                reason="Illustrative queue order only; actual restricted funding priorities must be authorized.",
+                reason="Illustrative queue order only; manager approval is required before any commitment.",
             ))
         remaining -= proposed
     return AllocationPreviewResponse(
