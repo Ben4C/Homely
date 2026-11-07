@@ -1,0 +1,9 @@
+﻿.dashboard {
+  composes: dashboard from "../developer/Dashboard.module.css";
+}
+.cards {
+  composes: cards from "../developer/Dashboard.module.css";
+}
+.notice {
+  composes: notice from "../developer/Dashboard.module.css";
+}

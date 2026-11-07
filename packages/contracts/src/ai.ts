@@ -5,35 +5,89 @@ export interface SourceDocument {
   pdf_base64?: string | null;
   consent_to_send_to_claude: boolean;
 }
-export interface DocumentReviewRequest { source: SourceDocument; document_type: string; required_items: string[] }
-export interface ExtractedFact { label: string; value: string; evidence_excerpt: string }
-export interface DocumentReviewResponse {
-  demo: boolean; ai_generated: boolean; source_label: string; human_review_required: boolean;
-  extracted_facts: ExtractedFact[]; potentially_missing_items: string[];
-  inconsistencies_to_check: string[]; next_steps: string[]; disclaimer: string;
+export interface DocumentReviewRequest {
+  source: SourceDocument;
+  document_type: string;
+  required_items: string[];
 }
-export interface ProgramExtractRequest { source: SourceDocument }
-export interface DraftRule { criterion: string; proposed_requirement: string; evidence_excerpt: string }
+export interface ExtractedFact {
+  label: string;
+  value: string;
+  evidence_excerpt: string;
+}
+export interface DocumentReviewResponse {
+  demo: boolean;
+  ai_generated: boolean;
+  source_label: string;
+  human_review_required: boolean;
+  extracted_facts: ExtractedFact[];
+  potentially_missing_items: string[];
+  inconsistencies_to_check: string[];
+  next_steps: string[];
+  disclaimer: string;
+}
+export interface ProgramExtractRequest {
+  source: SourceDocument;
+}
+export interface DraftRule {
+  criterion: string;
+  proposed_requirement: string;
+  evidence_excerpt: string;
+}
 export interface ProgramExtractResponse {
-  demo: boolean; ai_generated: boolean; source_label: string; human_review_required: boolean; published: boolean;
-  proposed_program_name: string; proposed_assistance_type: string;
-  proposed_eligibility_rules: DraftRule[]; proposed_required_documents: string[];
-  proposed_deadline: string; proposed_assistance_limit: string; uncertainties: string[]; disclaimer: string;
+  demo: boolean;
+  ai_generated: boolean;
+  source_label: string;
+  human_review_required: boolean;
+  published: boolean;
+  proposed_program_name: string;
+  proposed_assistance_type: string;
+  proposed_eligibility_rules: DraftRule[];
+  proposed_required_documents: string[];
+  proposed_deadline: string;
+  proposed_assistance_limit: string;
+  uncertainties: string[];
+  disclaimer: string;
 }
 export interface CandidateFundingSource {
-  id: string; name: string; funding_track: "DEVELOPMENT" | "BUYER";
+  id: string;
+  name: string;
+  funding_track: "DEVELOPMENT" | "BUYER";
   type: "GOVERNMENT" | "NONPROFIT" | "EMPLOYER" | "DONOR" | "LENDER";
-  proposed_amount_usd: string; availability: "UNVERIFIED" | "CONFIRMED_BY_MANAGER" | "CLOSED";
-  program_terms: string; source_url?: string | null;
+  proposed_amount_usd: string;
+  availability: "UNVERIFIED" | "CONFIRMED_BY_MANAGER" | "CLOSED";
+  program_terms: string;
+  source_url?: string | null;
+  /** Omitted classification remains unknown and cannot generate a cash scenario. */
+  contribution_kind?: "CASH" | "IN_KIND" | "UNKNOWN";
 }
 export interface FundingAdviceRequest {
+  project?: import("./developers").HousingProject | null;
   financials: import("./developers").GapRequest;
-  sources: CandidateFundingSource[]; question: string; consent_to_send_to_claude: boolean;
+  sources: CandidateFundingSource[];
+  question: string;
+  consent_to_send_to_claude: boolean;
 }
-export interface AdviceItem { source_id: string; opportunity_or_constraint: string; missing_verification: string }
+export interface AdviceItem {
+  source_id: string;
+  opportunity_or_constraint: string;
+  missing_verification: string;
+}
 export interface FundingAdviceResponse {
-  demo: boolean; ai_generated: boolean; human_review_required: boolean;
+  scenarios: {
+    source_id: string;
+    hypothetical_cash_usd: string;
+    hypothetical_remaining_gap_usd: string;
+    hypothetical_surplus_usd: string;
+    assumption: string;
+  }[];
+  demo: boolean;
+  ai_generated: boolean;
+  human_review_required: boolean;
   deterministic_gap: import("./developers").GapResponse;
-  overall_explanation: string; source_assessments: AdviceItem[];
-  potential_stack_conflicts: string[]; next_actions: string[]; disclaimer: string;
+  overall_explanation: string;
+  source_assessments: AdviceItem[];
+  potential_stack_conflicts: string[];
+  next_actions: string[];
+  disclaimer: string;
 }
