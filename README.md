@@ -36,6 +36,12 @@ For a nonprofit or city to start using Homely next month, we would first partner
 
 With one more week, we would focus on building a working prototype of Homely's main features, including the funding database, recipient eligibility matching system, and donor transparency dashboard. We would also test the platform using our synthetic housing deal and a real Orange County housing project to identify gaps, improve accuracy, and gather feedback from potential users.
 
+## Data and privacy
+This project uses only public or provided data. It contains no personal information about real tenants, buyers or residents. It does not file applications or contact any city or person.
+
+## License
+MIT, see the LICENSE file in this repo (or tell us what you chose).
+
 ## Architecture
 
 - **Web:** Next.js App Router + React + TypeScript (`apps/web`)
