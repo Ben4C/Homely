@@ -1,2 +1,6 @@
 # Homely
-Our submission for the Claude UCI 2026 Hackathon
+Homely is a comprehensive affordable housing platform designed to bridge the gap between prospective homeowners, donors, and funding managers. While securing housing assistance is often hindered by fragmented funding sources, complex eligibility requirements, and inefficient application processes, Homely solves this by offering an all-in-one ecosystem that streamlines financial support. Whether users are seeking help with monthly rent or purchasing their first home, the platform ensures that available capital efficiently and transparently reaches the residents who need it most.
+
+To achieve this, Homely optimizes the housing pipeline through tailored tools for every stakeholder. Recipients are empowered by a centralized hub that aggregates local, state, and federal programs, utilizing a dynamic profile system to automatically match them with resources based on their specific eligibility and urgency. For funding managers and nonprofits, the platform provides robust administrative tools to set exact eligibility rules, track remaining capital, and seamlessly manage incoming applications. Meanwhile, donors benefit from unprecedented financial transparency, allowing them to route contributions to specific organizations and see exactly how their funding is deployed through an automated queue system.
+
+Homely was created as our submission for the Claude UCI 2026 Hackathon.
