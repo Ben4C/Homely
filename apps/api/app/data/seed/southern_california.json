@@ -1,0 +1,581 @@
+{
+  "areas": [
+    {
+      "id": "us-ca",
+      "name": "California",
+      "kind": "STATE",
+      "parent_id": null
+    },
+    {
+      "id": "ca-orange",
+      "name": "Orange",
+      "kind": "COUNTY",
+      "parent_id": "us-ca"
+    },
+    {
+      "id": "ca-los-angeles",
+      "name": "Los Angeles",
+      "kind": "COUNTY",
+      "parent_id": "us-ca"
+    },
+    {
+      "id": "ca-san-diego",
+      "name": "San Diego",
+      "kind": "COUNTY",
+      "parent_id": "us-ca"
+    },
+    {
+      "id": "ca-riverside",
+      "name": "Riverside",
+      "kind": "COUNTY",
+      "parent_id": "us-ca"
+    },
+    {
+      "id": "ca-san-bernardino",
+      "name": "San Bernardino",
+      "kind": "COUNTY",
+      "parent_id": "us-ca"
+    },
+    {
+      "id": "ca-orange-santa-ana",
+      "name": "Santa Ana",
+      "kind": "CITY",
+      "parent_id": "ca-orange"
+    },
+    {
+      "id": "ca-orange-anaheim",
+      "name": "Anaheim",
+      "kind": "CITY",
+      "parent_id": "ca-orange"
+    },
+    {
+      "id": "ca-orange-irvine",
+      "name": "Irvine",
+      "kind": "CITY",
+      "parent_id": "ca-orange"
+    },
+    {
+      "id": "ca-orange-fullerton",
+      "name": "Fullerton",
+      "kind": "CITY",
+      "parent_id": "ca-orange"
+    },
+    {
+      "id": "ca-orange-garden-grove",
+      "name": "Garden Grove",
+      "kind": "CITY",
+      "parent_id": "ca-orange"
+    },
+    {
+      "id": "ca-orange-costa-mesa",
+      "name": "Costa Mesa",
+      "kind": "CITY",
+      "parent_id": "ca-orange"
+    }
+  ],
+  "organizations": [
+    {
+      "id": "calhfa",
+      "legal_name": "California Housing Finance Agency",
+      "display_name": "California Housing Finance Agency",
+      "kind": "GOVERNMENT",
+      "website": "https://www.calhfa.ca.gov/homebuyer/programs/",
+      "headquarters": "California",
+      "contact": {},
+      "services": [
+        "HOMEOWNERSHIP_ASSISTANCE"
+      ],
+      "charitable_status": {},
+      "source": {
+        "url": "https://www.calhfa.ca.gov/homebuyer/programs/",
+        "title": "California Housing Finance Agency",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official state agency describes lender-delivered mortgage and subordinate-loan products.",
+        "verified": true
+      },
+      "area_ids": [
+        "us-ca"
+      ]
+    },
+    {
+      "id": "hcd",
+      "legal_name": "California Department of Housing and Community Development",
+      "display_name": "California Department of Housing and Community Development",
+      "kind": "GOVERNMENT",
+      "website": "https://www.hcd.ca.gov/funding/calhome",
+      "headquarters": "California",
+      "contact": {},
+      "services": [
+        "GOVERNMENT_HOUSING_FUNDING"
+      ],
+      "charitable_status": {},
+      "source": {
+        "url": "https://www.hcd.ca.gov/funding/calhome",
+        "title": "California Department of Housing and Community Development",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official department lists CalHome assistance to local agencies and nonprofit corporations.",
+        "verified": true
+      },
+      "area_ids": [
+        "us-ca"
+      ]
+    },
+    {
+      "id": "city-anaheim",
+      "legal_name": "City of Anaheim",
+      "display_name": "City of Anaheim",
+      "kind": "GOVERNMENT",
+      "website": "https://www.anaheim.net/6695/First-Time-Homebuyer-Program",
+      "headquarters": "Orange",
+      "contact": {},
+      "services": [
+        "HOMEOWNERSHIP_ASSISTANCE"
+      ],
+      "charitable_status": {},
+      "source": {
+        "url": "https://www.anaheim.net/6695/First-Time-Homebuyer-Program",
+        "title": "City of Anaheim",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official city page describes the My Anaheim Home down-payment loan and purchase-area restriction.",
+        "verified": true
+      },
+      "area_ids": [
+        "ca-orange"
+      ]
+    },
+    {
+      "id": "city-garden-grove",
+      "legal_name": "City of Garden Grove",
+      "display_name": "City of Garden Grove",
+      "kind": "GOVERNMENT",
+      "website": "https://ggcity.org/neighborhood-improvement/first-time-home-buyer-program",
+      "headquarters": "Orange",
+      "contact": {},
+      "services": [
+        "HOMEOWNERSHIP_ASSISTANCE"
+      ],
+      "charitable_status": {},
+      "source": {
+        "url": "https://ggcity.org/neighborhood-improvement/first-time-home-buyer-program",
+        "title": "City of Garden Grove",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official city page provides first-time buyer loan tiers, household income tables and application resources.",
+        "verified": true
+      },
+      "area_ids": [
+        "ca-orange"
+      ]
+    },
+    {
+      "id": "city-irvine",
+      "legal_name": "City of Irvine",
+      "display_name": "City of Irvine",
+      "kind": "GOVERNMENT",
+      "website": "https://cityofirvine.gov/affordable-housing/affordable-home-ownership",
+      "headquarters": "Orange",
+      "contact": {},
+      "services": [
+        "HOUSING_REFERRAL"
+      ],
+      "charitable_status": {},
+      "source": {
+        "url": "https://cityofirvine.gov/affordable-housing/affordable-home-ownership",
+        "title": "City of Irvine",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official city page provides homeownership resource referrals; it does not establish a direct city cash award.",
+        "verified": true
+      },
+      "area_ids": [
+        "ca-orange"
+      ]
+    },
+    {
+      "id": "habitat-oc",
+      "legal_name": "Habitat for Humanity of Orange County",
+      "display_name": "Habitat for Humanity of Orange County",
+      "kind": "NONPROFIT",
+      "website": "https://habitatoc.org/",
+      "headquarters": "Santa Ana, Orange County, California",
+      "contact": {
+        "phone": "714-434-6200",
+        "email": "info@habitatoc.org",
+        "address": "2200 Ritchey Street, Santa Ana, CA 92705"
+      },
+      "services": [
+        "AFFORDABLE_HOUSING_DEVELOPER",
+        "HOMEOWNERSHIP",
+        "HOUSING_REHABILITATION"
+      ],
+      "charitable_status": {
+        "status": "NOT_INDEPENDENTLY_CHECKED",
+        "reference": "https://www.irs.gov/charities-non-profits/tax-exempt-organization-search",
+        "self_reported_ein": "33-0311059",
+        "self_reported_section": "501(c)(3)"
+      },
+      "source": {
+        "url": "https://habitatoc.org/",
+        "title": "Habitat for Humanity of Orange County",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "The California Orange County affiliate provides homeownership and home-repair information. Availability is not established.",
+        "verified": true
+      },
+      "area_ids": [
+        "ca-orange"
+      ]
+    },
+    {
+      "id": "habitat-la",
+      "legal_name": "Habitat for Humanity of Greater Los Angeles",
+      "display_name": "Habitat for Humanity of Greater Los Angeles",
+      "kind": "NONPROFIT",
+      "website": "https://www.habitatla.org/",
+      "headquarters": "Los Angeles",
+      "contact": {},
+      "services": [
+        "AFFORDABLE_HOUSING_DEVELOPER",
+        "HOMEOWNERSHIP",
+        "COUNSELING",
+        "HOUSING_REHABILITATION"
+      ],
+      "charitable_status": {
+        "status": "NOT_INDEPENDENTLY_CHECKED",
+        "reference": "https://www.irs.gov/charities-non-profits/tax-exempt-organization-search"
+      },
+      "source": {
+        "url": "https://www.habitatla.org/",
+        "title": "Habitat for Humanity of Greater Los Angeles",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official affiliate site describes homebuilding, repairs, education and homeownership services; confirm its specific service territory.",
+        "verified": true
+      },
+      "area_ids": [
+        "ca-los-angeles"
+      ]
+    },
+    {
+      "id": "habitat-sd",
+      "legal_name": "San Diego Habitat for Humanity",
+      "display_name": "San Diego Habitat for Humanity",
+      "kind": "NONPROFIT",
+      "website": "https://www.sandiegohabitat.org/",
+      "headquarters": "San Diego",
+      "contact": {},
+      "services": [
+        "AFFORDABLE_HOUSING_DEVELOPER",
+        "HOMEOWNERSHIP",
+        "HOUSING_REHABILITATION"
+      ],
+      "charitable_status": {
+        "status": "NOT_INDEPENDENTLY_CHECKED",
+        "reference": "https://www.irs.gov/charities-non-profits/tax-exempt-organization-search"
+      },
+      "source": {
+        "url": "https://www.sandiegohabitat.org/",
+        "title": "San Diego Habitat for Humanity",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official affiliate site lists homeownership and home-preservation services. An active funding offer is not inferred.",
+        "verified": true
+      },
+      "area_ids": [
+        "ca-san-diego"
+      ]
+    }
+  ],
+  "programs": [
+    {
+      "id": "calhfa-myhome",
+      "name": "CalHFA MyHome Assistance",
+      "organization_id": "calhfa",
+      "description": "Deferred junior loan used with eligible CalHFA mortgages for down payment or closing costs.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "DOWN_PAYMENT",
+      "loan_grant": "LOAN",
+      "channel": "PARTICIPATING_LENDER",
+      "funding_track": "BUYER",
+      "official_url": "https://www.calhfa.ca.gov/homebuyer/programs/myhome.htm",
+      "application_url": "https://www.calhfa.ca.gov/homebuyer/programs/myhome.htm",
+      "availability": "UNKNOWN",
+      "source": {
+        "url": "https://www.calhfa.ca.gov/homebuyer/programs/myhome.htm",
+        "title": "CalHFA MyHome Assistance",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Deferred junior loan used with eligible CalHFA mortgages for down payment or closing costs.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "us-ca"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator.",
+        "Owner occupancy, approved education, current income limits, lender and property conditions must be checked. No fixed income limit is inferred from the loan percentage."
+      ],
+      "rules": [
+        {
+          "criterion": "FIRST_TIME_BUYER",
+          "value": {
+            "required": true
+          },
+          "explanation": "The official borrower requirements specify first-time homebuyer status."
+        }
+      ],
+      "government_level": "STATE",
+      "assistance_formula": "FHA: up to 3.5%; conventional: up to 3% of the lesser of purchase price or appraised value."
+    },
+    {
+      "id": "calhfa-dream-for-all",
+      "name": "California Dream For All Shared Appreciation Loan",
+      "organization_id": "calhfa",
+      "description": "Shared-appreciation subordinate financing; original principal and a share of appreciation are repayable.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "DOWN_PAYMENT",
+      "loan_grant": "LOAN",
+      "channel": "PARTICIPATING_LENDER",
+      "funding_track": "BUYER",
+      "official_url": "https://www.calhfa.ca.gov/dream/",
+      "application_url": "https://www.calhfa.ca.gov/dream/",
+      "availability": "VERIFIED_CLOSED",
+      "source": {
+        "url": "https://www.calhfa.ca.gov/dream/",
+        "title": "California Dream For All Shared Appreciation Loan",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Shared-appreciation subordinate financing; original principal and a share of appreciation are repayable.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "us-ca"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator.",
+        "Official FAQ says new voucher applications closed March 16, 2026. Existing applicant waitlists are distinct from new intake. First-generation borrower and county income conditions also apply."
+      ],
+      "rules": [
+        {
+          "criterion": "FIRST_TIME_BUYER",
+          "value": {
+            "required": true
+          },
+          "explanation": "All borrowers must be first-time homebuyers according to the official page."
+        }
+      ],
+      "government_level": "STATE",
+      "max_assistance_usd": "150000.00",
+      "assistance_formula": "Up to 20% of purchase price, capped at $150,000.",
+      "application_closes_on": "2026-03-16",
+      "residence_area_ids": [
+        "us-ca"
+      ]
+    },
+    {
+      "id": "hcd-calhome",
+      "name": "CalHome \u2014 Agency and Nonprofit Funding",
+      "organization_id": "hcd",
+      "description": "State funding is directed to public agencies and nonprofit corporations, not directly to individuals.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "DEVELOPMENT",
+      "loan_grant": "MIXED",
+      "channel": "LOCAL_ADMINISTERING_AGENCY",
+      "funding_track": "DEVELOPMENT",
+      "official_url": "https://www.hcd.ca.gov/funding/calhome",
+      "application_url": "https://www.hcd.ca.gov/funding/calhome",
+      "availability": "VERIFIED_CLOSED",
+      "source": {
+        "url": "https://www.hcd.ca.gov/funding/calhome",
+        "title": "CalHome \u2014 Agency and Nonprofit Funding",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "State funding is directed to public agencies and nonprofit corporations, not directly to individuals.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "us-ca"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator.",
+        "Source marks its application window closed. Eligible project activities and local-administered buyer loans require separate program review."
+      ],
+      "rules": [],
+      "government_level": "STATE"
+    },
+    {
+      "id": "hcd-home",
+      "name": "HOME \u2014 Program Activities",
+      "organization_id": "hcd",
+      "description": "HCD supports eligible local governments and qualified entities administering first-time buyer, rehabilitation and rental programs.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "HOMEOWNERSHIP",
+      "loan_grant": "GRANT",
+      "channel": "LOCAL_ADMINISTERING_AGENCY",
+      "funding_track": "UPSTREAM",
+      "official_url": "https://www.hcd.ca.gov/funding/home",
+      "application_url": "https://www.hcd.ca.gov/funding/home",
+      "availability": "UNKNOWN",
+      "source": {
+        "url": "https://www.hcd.ca.gov/funding/home",
+        "title": "HOME \u2014 Program Activities",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "HCD supports eligible local governments and qualified entities administering first-time buyer, rehabilitation and rental programs.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "us-ca"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator.",
+        "A public-comment period on guidelines is not an open individual grant application. Jurisdictional participation restrictions require review."
+      ],
+      "rules": [],
+      "government_level": "STATE"
+    },
+    {
+      "id": "my-anaheim-home",
+      "name": "My Anaheim Home",
+      "organization_id": "city-anaheim",
+      "description": "City down-payment loan for eligible first-time buyers purchasing within incorporated Anaheim.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "DOWN_PAYMENT",
+      "loan_grant": "LOAN",
+      "channel": "DIRECT_HOMEBUYER",
+      "funding_track": "BUYER",
+      "official_url": "https://www.anaheim.net/6695/First-Time-Homebuyer-Program",
+      "application_url": "https://www.anaheim.net/6695/First-Time-Homebuyer-Program",
+      "availability": "UNKNOWN",
+      "source": {
+        "url": "https://www.anaheim.net/6695/First-Time-Homebuyer-Program",
+        "title": "My Anaheim Home",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "City down-payment loan for eligible first-time buyers purchasing within incorporated Anaheim.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "ca-orange-anaheim"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator.",
+        "Published terms include 30-year deferral and 1% simple interest. Income, price, owner-occupancy and seminar requirements apply. Residency/work priority is not treated as a universal residency requirement. No open-intake claim inferred."
+      ],
+      "rules": [
+        {
+          "criterion": "FIRST_TIME_BUYER",
+          "value": {
+            "required": true
+          },
+          "explanation": "City requires no homeownership during the preceding three years."
+        }
+      ],
+      "government_level": "CITY",
+      "max_assistance_usd": "50000.00"
+    },
+    {
+      "id": "garden-grove-first-home",
+      "name": "Garden Grove First-Time Home Buyer Loan",
+      "organization_id": "city-garden-grove",
+      "description": "City down-payment/closing-cost loans have distinct low- and moderate-income tiers.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "DOWN_PAYMENT",
+      "loan_grant": "LOAN",
+      "channel": "DIRECT_HOMEBUYER",
+      "funding_track": "BUYER",
+      "official_url": "https://ggcity.org/neighborhood-improvement/first-time-home-buyer-program",
+      "application_url": "https://ggcity.org/neighborhood-improvement/first-time-home-buyer-program",
+      "availability": "UNKNOWN",
+      "source": {
+        "url": "https://ggcity.org/neighborhood-improvement/first-time-home-buyer-program",
+        "title": "Garden Grove First-Time Home Buyer Loan",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "City down-payment/closing-cost loans have distinct low- and moderate-income tiers.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "ca-orange-garden-grove"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator.",
+        "Income-table effective date is not stated; confirm the current chart. Workshop, owner occupancy, 3% down payment, housing-cost and property restrictions remain. No funding balance or confirmed open intake is asserted."
+      ],
+      "rules": [
+        {
+          "criterion": "FIRST_TIME_BUYER",
+          "value": {
+            "required": true
+          },
+          "explanation": "Published requirement excludes homeownership in the last three years."
+        },
+        {
+          "criterion": "MAX_INCOME",
+          "value": {
+            "by_household_size": {
+              "1": "116400.00",
+              "2": "133050.00",
+              "3": "149650.00",
+              "4": "166300.00",
+              "5": "179600.00",
+              "6": "192900.00",
+              "7": "206200.00",
+              "8": "219500.00"
+            }
+          },
+          "explanation": "The moderate-income table bounds this loan tier; assistance awards and the separate Advantage 3 offering have different terms."
+        }
+      ],
+      "government_level": "CITY",
+      "max_assistance_usd": "110000.00",
+      "assistance_formula": "Up to $110,000 low-income; up to $50,000 moderate-income. The maximum is not an income limit."
+    },
+    {
+      "id": "irvine-homeownership-referrals",
+      "name": "Irvine Homeownership Resources",
+      "organization_id": "city-irvine",
+      "description": "City directory refers residents to housing organizations and state programs; it is not a direct city grant.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "COUNSELING",
+      "loan_grant": "REFERRAL",
+      "channel": "EXTERNAL_REFERRAL",
+      "funding_track": "REFERRAL",
+      "official_url": "https://cityofirvine.gov/affordable-housing/affordable-home-ownership",
+      "application_url": "https://cityofirvine.gov/affordable-housing/affordable-home-ownership",
+      "availability": "UNKNOWN",
+      "source": {
+        "url": "https://cityofirvine.gov/affordable-housing/affordable-home-ownership",
+        "title": "Irvine Homeownership Resources",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "City directory refers residents to housing organizations and state programs; it is not a direct city grant.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "ca-orange-irvine"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator."
+      ],
+      "rules": [],
+      "government_level": "CITY"
+    },
+    {
+      "id": "habitat-oc-homeownership",
+      "name": "Habitat OC Homeownership Information",
+      "organization_id": "habitat-oc",
+      "description": "Official affiliate information about affordable homeownership and related services; confirm project-specific openings.",
+      "category": "HOMEOWNERSHIP",
+      "assistance_type": "HOMEOWNERSHIP",
+      "loan_grant": "REFERRAL",
+      "channel": "PARTICIPATING_NONPROFIT",
+      "funding_track": "REFERRAL",
+      "official_url": "https://habitatoc.org/apply-for-a-home/",
+      "application_url": "https://habitatoc.org/apply-for-a-home/",
+      "availability": "UNKNOWN",
+      "source": {
+        "url": "https://habitatoc.org/apply-for-a-home/",
+        "title": "Habitat OC Homeownership Information",
+        "retrieved_at": "2026-11-07T22:09:59.653410+00:00",
+        "evidence": "Official affiliate information about affordable homeownership and related services; confirm project-specific openings.",
+        "verified": true
+      },
+      "purchase_area_ids": [
+        "ca-orange"
+      ],
+      "restrictions": [
+        "Informational existence does not establish current funding availability. Confirm with the administrator."
+      ],
+      "rules": []
+    }
+  ]
+}

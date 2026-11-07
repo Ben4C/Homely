@@ -15,10 +15,10 @@ is_demo_mode()
 app = FastAPI(title="Homely Demo API", version="0.1.0", description="Synthetic data only. No approvals or payments.")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[origin.strip() for origin in __import__("os").getenv("CORS_ORIGINS", "http://localhost:3000").split(",") if origin.strip()],
     allow_credentials=False,
     allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 # Purpose: Report API readiness and demo mode for deployment and UI checks.
@@ -34,3 +34,6 @@ app.include_router(donor_router, prefix="/api/v1", tags=["donors"])
 app.include_router(employer_router, prefix="/api/v1", tags=["employers"])
 app.include_router(developer_router, prefix="/api/v1", tags=["developers"])
 app.include_router(admin_router, prefix="/api/v1", tags=["admin"])
+
+from app.data.router import router as directory_router
+app.include_router(directory_router, prefix="/api/v1", tags=["funding-directory"])

@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from app.core.database import legacy_directory_session
 from .schemas import HomebuyerProfile, MatchRequest, MatchResponse
 from .fixtures import SYNTHETIC_PROFILE
 from . import service
@@ -17,8 +18,8 @@ def profile_template() -> HomebuyerProfile:
 # Inputs: MatchRequest JSON including a homebuyer profile.
 # Outputs: MatchResponse with conservative results (no approval).
 @router.post("/homebuyers/match", response_model=MatchResponse)
-def match(body: MatchRequest) -> MatchResponse:
-    return service.match_homebuyer(body.profile)
+def match(body: MatchRequest, session=Depends(legacy_directory_session)) -> MatchResponse:
+    return service.match_homebuyer(body.profile,session)
 
 
 # Purpose: Send a consented sample applicant document to Claude for nonbinding readiness review.

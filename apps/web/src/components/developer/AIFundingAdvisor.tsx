@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { apiPost } from "@/lib/api";
+import { apiGet, apiPost } from "@/lib/api";
 import { formatUsd, prepareFinancials } from "./finance";
+import type { ProgramSearch } from "@homely/contracts/directory";
 import type { GapRequest, HousingProject } from "@homely/contracts/developers";
 import type {
   CandidateFundingSource,
@@ -9,47 +10,11 @@ import type {
   FundingAdviceResponse,
 } from "@homely/contracts/ai";
 
-const fakeCandidates: CandidateFundingSource[] = [
-  {
-    id: "demo-public-source",
-    name: "Fictional county development subsidy",
-    funding_track: "DEVELOPMENT",
-    type: "GOVERNMENT",
-    proposed_amount_usd: "40000.00",
-    availability: "UNVERIFIED",
-    contribution_kind: "CASH",
-    program_terms:
-      "Illustrative development capital; restrictions and availability unknown.",
-  },
-  {
-    id: "demo-employer-source",
-    name: "Fictional employer project sponsor",
-    funding_track: "DEVELOPMENT",
-    type: "EMPLOYER",
-    proposed_amount_usd: "30000.00",
-    availability: "UNVERIFIED",
-    contribution_kind: "CASH",
-    program_terms:
-      "Sponsorship is not a cash commitment without signed terms and receipt.",
-  },
-  {
-    id: "demo-buyer-source",
-    name: "Fictional employee down-payment assistance",
-    funding_track: "BUYER",
-    type: "EMPLOYER",
-    proposed_amount_usd: "10000.00",
-    availability: "UNVERIFIED",
-    contribution_kind: "CASH",
-    program_terms:
-      "Buyer-only assistance; do not count as project-development revenue.",
-  },
-];
-
 /**
  * Purpose: Let Claude explain *candidate* funding sources and their restrictions; math remains on server.
  * Inputs: Developer's deterministic gap fields, sample funding source descriptions, explicit consent.
  * Outputs: Advisory narrative, source-specific cautions, and authoritative current gap.
- * TODO(prod): Replace synthetic candidates with validated registry, dated source terms, manager approval.
+ * Registry candidates retain source dates and availability; user assumptions and AI advice require administrator verification.
  */
 export function AIFundingAdvisor({
   financials,
@@ -58,10 +23,49 @@ export function AIFundingAdvisor({
   financials: GapRequest;
   project?: HousingProject;
 }) {
-  const [sources, setSources] =
-    useState<CandidateFundingSource[]>(fakeCandidates);
+  const [sources, setSources] = useState<CandidateFundingSource[]>([]);
+  const [sourceError, setSourceError] = useState("");
+  const [sourceLoading, setSourceLoading] = useState(true);
+  // Purpose: Load actual development candidates; inputs: published registry; outputs: classified supplied sources, never fictional fallback.
+  useEffect(() => {
+    let active = true;
+    apiGet<ProgramSearch>(
+      "/funding-programs/search?funding_track=DEVELOPMENT&page_size=12",
+    )
+      .then((r) => {
+        if (active)
+          setSources(
+            r.programs.map((p) => ({
+              id: p.id,
+              name: p.name,
+              funding_track: "DEVELOPMENT",
+              type:
+                p.organization_type === "GOVERNMENT"
+                  ? "GOVERNMENT"
+                  : "NONPROFIT",
+              proposed_amount_usd: "0.00",
+              availability:
+                p.availability === "VERIFIED_CLOSED" ? "CLOSED" : "UNVERIFIED",
+              contribution_kind: "UNKNOWN",
+              program_terms: [p.description, ...p.restrictions]
+                .join(" ")
+                .slice(0, 1500),
+              source_url: p.source_url,
+            })),
+          );
+      })
+      .catch((e) => {
+        if (active) setSourceError(String(e));
+      })
+      .finally(() => {
+        if (active) setSourceLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
   const [question, setQuestion] = useState(
-    "Which of these hypothetical funding sources might help close the project development gap?",
+    "What restrictions and verification steps apply to these supplied development funding sources?",
   );
   const [consent, setConsent] = useState(false);
   const [result, setResult] = useState<FundingAdviceResponse | null>(null);
@@ -85,7 +89,7 @@ export function AIFundingAdvisor({
   /** Purpose: Request source-bounded advice. Inputs: submitted assumptions and consent; outputs: Claude analysis or sanitized API error. */
   async function advise(event: FormEvent) {
     event.preventDefault();
-    if (!consent || busy) return;
+    if (!consent || busy || sources.length === 0) return;
     const version = ++requestVersion.current;
     setBusy(true);
     setError(null);
@@ -117,10 +121,22 @@ export function AIFundingAdvisor({
     <section className="panel ai-panel">
       <h2>Claude: Funding stack advisor</h2>
       <p className="ai-notice">
-        These funding sources are FICTIONAL. No real grants are available in
-        this demo; AI suggestions do not change project funding or determine
-        stackability.
+        Candidates come from the source-backed directory. Listing a program does
+        not confirm an award or open intake. Enter hypothetical amounts only; AI
+        advice never changes confirmed project financing.
       </p>
+      {sourceLoading && <p role="status">Loading development candidates?</p>}
+      {sourceError && (
+        <p role="alert" className="error">
+          {sourceError}
+        </p>
+      )}
+      {!sourceLoading && !sourceError && sources.length === 0 && (
+        <p>
+          No published development candidates are available. No fictional
+          funding sources are substituted.
+        </p>
+      )}
       <form onSubmit={advise}>
         <fieldset disabled={busy}>
           <legend>Candidate analysis inputs</legend>
@@ -164,8 +180,33 @@ export function AIFundingAdvisor({
                 />
               </div>
               <p>{s.program_terms}</p>
+              <label htmlFor={`candidate-kind-${index}`}>
+                Supported contribution classification
+              </label>
+              <select
+                id={`candidate-kind-${index}`}
+                value={s.contribution_kind ?? "UNKNOWN"}
+                onChange={(e) =>
+                  setSources((old) =>
+                    old.map((a, i) =>
+                      i === index
+                        ? {
+                            ...a,
+                            contribution_kind: e.target.value as
+                              "CASH" | "IN_KIND" | "UNKNOWN",
+                          }
+                        : a,
+                    ),
+                  )
+                }
+              >
+                <option>UNKNOWN</option>
+                <option>CASH</option>
+                <option>IN_KIND</option>
+              </select>
               <p>
-                Reference: {s.source_url ?? s.id} (supplied synthetic source)
+                Reference: {s.source_url ?? s.id} (supplied source; verify
+                current terms)
               </p>
             </div>
           ))}
@@ -175,9 +216,13 @@ export function AIFundingAdvisor({
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
             />{" "}
-            I consent to sending these synthetic assumptions to Claude.
+            I consent to sending these project assumptions and public program
+            terms to Claude.
           </label>
-          <button type="submit" disabled={!consent || busy}>
+          <button
+            type="submit"
+            disabled={!consent || busy || sources.length === 0}
+          >
             {busy ? "Analyzing…" : "Analyze funding stack"}
           </button>
         </fieldset>

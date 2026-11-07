@@ -23,3 +23,10 @@
 ## Explicit integration dependencies
 
 Dev 1 relies on Dev 2's program rules. Dev 3 consumes Dev 4's employer matching preview. Dev 4 proposes project sponsorships to Dev 5 but never writes the developer's received funding. Dev 5 provides Claude client, PDF helper, contracts and review for all teams.
+
+
+## Authorized integration branch
+
+The user explicitly authorized application-wide changes on `fix/gui-database-integration` (2026-11-07), superseding the earlier Developer 5-only scope for this assignment. The baseline was clean at `0658322`; no teammate uncommitted work was replaced.
+
+Cross-domain changes: shared layout/tokens/API client; homebuyer location/profile/matching adapter and contracts; funding-manager directory adapter and contracts; donor organization discovery; manager/admin directory review; developer real-program candidate discovery. Employer backend, donor backend, Claude transport/document handlers, and deterministic financial services remain intact. New persistence/review code is isolated in `app/data`, `core/database.py`, `core/review_auth.py`, and Alembic. The full file inventory and checks are in [the integration report](INTEGRATION_REPORT.md).

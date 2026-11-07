@@ -1,6 +1,6 @@
 # Homely 0.2: Claude + Corporate Sponsorship Feature Specification
 
-> **Scope:** Claude-assisted **draft** analyses, and deterministic *simulated* employer contributions. This repo contains no authentic programs, organizations, applications, or payments. Never demo with unredacted client records.
+> **Scope:** Claude-assisted **draft** analyses, and deterministic *simulated* employer contributions. The source-backed PostgreSQL directory now contains real programs and organizations; applications and payments remain previews. Never demo with unredacted client records.
 
 ## A. Claude: Eligibility & Document Intelligence
 
@@ -17,8 +17,8 @@ Two collaborating owner domains:
 - Input: `{financials: GapRequest, sources: CandidateFundingSource[], question, consent_to_send_to_claude}`.
 - Output: `FundingAdviceResponse` containing a **deterministically calculated** `remaining_gap_usd`, Claude commentary keyed only to supplied source IDs, potential incompatibilities, required verification and explicit unknowns.
 - Distinguish `funding_track=BUYER` from `DEVELOPMENT` and `availability=UNVERIFIED` from a confirmed grant.
-- Candidate source amounts **never** change deterministic gap. No program is assumed open; the provided synthetic candidates are examples, not a live database.
-- Future work: versioned guidelines, date-sensitive income tables, source-by-source legal compatibility checks, and manager approval.
+- Candidate source amounts **never** change deterministic gap. No program is assumed open; the developer UI now loads sourced DEVELOPMENT candidates from the persistent directory. Proposed contribution amounts remain user hypotheses.
+- The directory stores versioned rules and household-size income tables. Broader source coverage, legal stackability checks, and actual funding commitments still require administrator work.
 
 ## C. Corporate Sponsorship + Employer Matching
 
@@ -61,7 +61,7 @@ uvicorn app.main:app --reload --port 8000
 - `messages.parse(output_format=PydanticModel)` uses official structured-output helpers, not brittle regex JSON parsing.
 - Uploaded document instructions are treated as **untrusted data**.
 - The backend doesn't currently store uploaded document bytes, but the request transmits them to the API provider; do not promise zero retention by external services.
-- Actual program verification, awards, tax treatment, fund disbursement and employment validation remain human-controlled and unimplemented.
+- Program source verification now has an authenticated, audited directory workflow. Actual awards, tax treatment, fund disbursement and employment validation remain outside this implementation.
 
 ## Test coverage
 
@@ -74,3 +74,6 @@ End-to-end live Claude testing requires a real key and separate human verificati
 - https://platform.claude.com/docs/en/build-with-claude/structured-outputs
 - https://platform.claude.com/docs/en/build-with-claude/pdf-support
 - https://platform.claude.com/docs/en/build-with-claude/citations
+
+
+Structured extraction remains unpublished. A reviewer can independently validate and normalize a draft into supported rules in the directory review form; it is never automatically imported from Claude output. See [directory operations](DIRECTORY_OPERATIONS.md).

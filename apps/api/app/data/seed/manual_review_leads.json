@@ -1,0 +1,19 @@
+{
+  "leads": [
+    {
+      "url": "https://www.santa-ana.org/my-first-home/",
+      "jurisdiction": "Santa Ana",
+      "reason": "Official source returned HTTP 403; no award, rules or open status imported."
+    },
+    {
+      "url": "https://www.cityoffullerton.com/government/departments/community-and-economic-development/housing-neighborhood-services/affordable-housing",
+      "jurisdiction": "Fullerton",
+      "reason": "Official source returned HTTP 403; manual review required."
+    },
+    {
+      "url": "https://www.costamesaca.gov/government/departments-and-divisions/economic-and-development-services/housing-and-community-development",
+      "jurisdiction": "Costa Mesa",
+      "reason": "Official source returned HTTP 403; no assistance program assumed."
+    }
+  ]
+}

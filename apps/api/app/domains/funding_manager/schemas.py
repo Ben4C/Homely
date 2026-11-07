@@ -9,10 +9,10 @@ class FundingProgram(BaseModel):
     name: str
     county: str
     assistance_type: str
-    max_assistance_usd: Decimal = Field(ge=0)
+    max_assistance_usd: Decimal | None = Field(default=None, ge=0)
     source_url: str | None = None
     last_verified_at: str | None = None
-    availability: Literal["DEMO_UNVERIFIED", "VERIFIED_OPEN", "VERIFIED_CLOSED", "WAITLIST", "UNKNOWN"]
+    availability: Literal["DEMO_UNVERIFIED", "VERIFIED_OPEN", "VERIFIED_CLOSED", "WAITLIST", "UNKNOWN", "STALE", "DRAFT_UNVERIFIED"]
     eligibility_summary: str
 
 

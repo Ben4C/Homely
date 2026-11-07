@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from app.core.database import legacy_directory_session
 from .schemas import (
     ProgramListResponse, ProgramCheckRequest, ProgramCheckResponse,
     ApplicationCreate, ApplicationResponse, ApplicationListResponse,
@@ -11,24 +12,24 @@ router = APIRouter()
 # Inputs: Optional county query string.
 # Outputs: ProgramListResponse (demo records; no live funds claimed).
 @router.get("/programs", response_model=ProgramListResponse)
-def programs(county: str | None = None) -> ProgramListResponse:
-    return service.list_programs(county)
+def programs(county: str | None = None, session=Depends(legacy_directory_session)) -> ProgramListResponse:
+    return service.list_programs(county,session)
 
 
 # Purpose: Initiate a program source/availability verification check.
 # Inputs: ProgramCheckRequest JSON object.
 # Outputs: ProgramCheckResponse with next verification action.
 @router.post("/programs/check", response_model=ProgramCheckResponse)
-def program_check(body: ProgramCheckRequest) -> ProgramCheckResponse:
-    return service.check_program(body)
+def program_check(body: ProgramCheckRequest, session=Depends(legacy_directory_session)) -> ProgramCheckResponse:
+    return service.check_program(body,session)
 
 
 # Purpose: Preview an application intake workflow, not submit a real request.
 # Inputs: ApplicationCreate JSON payload and consent flag.
 # Outputs: ApplicationResponse with explicit demo status.
 @router.post("/applications", response_model=ApplicationResponse)
-def application_create(body: ApplicationCreate) -> ApplicationResponse:
-    return service.create_application(body)
+def application_create(body: ApplicationCreate, session=Depends(legacy_directory_session)) -> ApplicationResponse:
+    return service.create_application(body,session)
 
 
 # Purpose: Display a manager's applicant review queue.

@@ -22,3 +22,12 @@
 - `messages.parse` Pydantic output currently provides **AI-proposed evidence excerpts**, not source-verified native citations. Add a citation retrieval/validation pass before relying on them operationally.
 - Production must add rate limits, quotas, origin-based restrictions, CSRF/auth, logs with PII redaction, prompt injection evaluations and provider compliance review.
 - Sponsorship preview reports zero allocatable funds. In-kind valuations aren't cash, and employer matches need employee/donation eligibility and verified money receipt.
+
+
+## Implemented public-directory controls
+
+Public database reads expose official-source directory information, not applicant files. Review credentials use server-only SHA-256 token mappings with constant-time comparison, explicit roles/organization IDs, default denial, and server-selected audit actors. Manager/admin password inputs retain raw tokens only in memory. Organization verification requires admin scope. Program and draft reviews check revisions under row locks and commit source/rules/audit changes atomically.
+
+Immutable source snapshots retain retrieval dates; an import attestation cannot make expired source evidence fresh. HTTPS source monitoring is allowlisted and bounded, follows no redirects, and stages changes only. Search may expose UNKNOWN/CLOSED/STALE listings as discovery, but only VERIFIED_OPEN qualifies for accepting-applications results. Official-site verification is separate from tax exemption, available funding, and a Homely partnership.
+
+These local operator credentials do not replace a production identity provider, token lifecycle, rate limiting, organization membership, or database least-privilege configuration. The Compose database binds localhost with development-only credentials. The isolated portable test cluster uses localhost trust authentication and must not be exposed. No real applicant documents or live payments were used in validation.
