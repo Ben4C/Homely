@@ -49,6 +49,9 @@ class ApplicationSummary(BaseModel):
     program_id: str
     status: str
     applicant_label: str
+    missing_documents: list[str] = Field(default_factory=list)
+    updated_at: str | None = None
+    last_reviewed_by: str | None = None
 
 
 class ApplicationListResponse(BaseModel):

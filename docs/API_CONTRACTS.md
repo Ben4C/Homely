@@ -51,3 +51,23 @@ See [NEW_FEATURES](NEW_FEATURES.md) and `packages/contracts/src/ai.ts` for full 
 | `POST /api/v1/employers/sponsorship-preview` | Dev 4 | `SponsorshipPreviewRequest` | `SponsorshipPreviewResponse` | None |
 
 Source PDFs are base64-encoded in `SourceDocument.pdf_base64`, at most 4 MiB decoded. Alternatively use `SourceDocument.document_text`. Explicit consent required for document processing; do not supply both. All AI endpoints need `ANTHROPIC_API_KEY` **on the server**. No prompt or preview is a verified funding offer.
+
+#### Manager extraction example
+
+`POST /api/v1/programs/ai-extract` accepts one explicitly consented text or PDF source:
+
+```json
+{
+  "source": {
+    "source_label": "Fictional 2026 program guidelines",
+    "document_text": "Fictional sample: applicants must live in Orange County. The deadline is not stated.",
+    "consent_to_send_to_claude": true
+  }
+}
+```
+
+The response is an unpublished draft (`published: false`, `human_review_required: true`). Proposed excerpts are AI-generated evidence candidates, not verified citations. Reviewers must verify the original source, program year, legal authority, rules, deadline and funding availability. No draft or local UI edit is stored or exported as an offer.
+
+The demo program list downgrades `VERIFIED_OPEN`, `VERIFIED_CLOSED`, and `WAITLIST` to `UNKNOWN` when the source URL or verification timestamp is missing, malformed, in the future, or more than 30 days old. The 30-day window is a conservative demo freshness rule; production should make the freshness policy configurable and audit reviewer/source evidence.
+
+Dev 2 artifacts: [manager dashboard screenshot](assignments/DEV2_MANAGER_SCREENSHOT.png) and [Dev 1 verified-rule schema proposal](assignments/DEV2_PROGRAM_RULE_SCHEMA_PROPOSAL.md).
