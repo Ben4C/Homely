@@ -18,6 +18,17 @@ Homely is a six-role platform spanning homebuyers, donors, employers, nonprofit 
 ## How Claude is used
 Claude helped plan and prototype the project: it researched income limits, a concept brief, and the Homely template site with a homepage, and drafted the backend code and tests.
 
+## Sources and assumptions
+| Item | Source or assumption | Date checked |
+| :---:        |     :---:      |         :---: |
+| Mortgage Rates  | https://www.freddiemac.com/pmms?stream=top&utm_source  | Nov 7, 2026   |
+| Income limit datase     | https://data.ca.gov/%40california-department-of-housing-and-community-development/income-limits-by-county?utm_source      | Nov 7, 2026     |
+| HOME-funded buyer income caps    | https://www.hcd.ca.gov/sites/default/files/docs/grants-and-funding/2026-california-HOME-income-limits_0.pdf       | Nov 7, 2026     |
+
+
+## Where it gets things wrong
+Homely may show outdated or inaccurate funding information if organizations do not regularly update their program listings, available funds, eligibility requirements, and application deadlines. The platform also cannot guarantee that someone will qualify for a program or receive funding, since final approval depends on the funding organization's review and available budget. We would not trust Homely to automatically approve applicants, distribute donations, or make final eligibility decisions without human verification. We also do not yet know how accurately the platform can match recipients with multiple funding sources or how quickly organizations would update their information.
+
 ## Next steps
 For a nonprofit or city to start using Homely next month, we would first partner with one local housing organization in Orange County to upload and verify available funding programs, eligibility requirements, application deadlines, and remaining funds. We would also create a simple onboarding process for donors, funding managers, and prospective homeowners so they can begin using the platform.
 
