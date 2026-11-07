@@ -17,5 +17,8 @@ export interface ProgramCheckRequest { program_id: string }
 export interface ProgramCheckResponse { program_id: string; result: "REQUIRES_SOURCE_VERIFICATION"; next_action: string }
 export interface ApplicationCreate { program_id: string; homebuyer_profile_id: string; consent_to_share: boolean }
 export interface ApplicationResponse { application_id: string; status: "DRAFT_PREVIEW"; demo: boolean; message: string }
-export interface ApplicationSummary { id: string; program_id: string; status: string; applicant_label: string }
+export interface ApplicationSummary {
+  id: string; program_id: string; status: string; applicant_label: string;
+  missing_documents: string[]; updated_at: string | null; last_reviewed_by: string | null;
+}
 export interface ApplicationListResponse { demo: boolean; applications: ApplicationSummary[] }

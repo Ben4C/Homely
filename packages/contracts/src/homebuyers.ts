@@ -16,6 +16,9 @@ export interface MatchResult {
   outcome: "NEEDS_MANUAL_REVIEW" | "OUTSIDE_SERVICE_AREA";
   explanations: string[];
   verified_open: boolean;
+  source_url: string | null;
+  last_verified_at: string | null;
+  availability: string;
 }
 export interface MatchResponse {
   demo: boolean;

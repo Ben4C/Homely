@@ -17,5 +17,7 @@ SYNTHETIC_PROGRAMS = [
     ),
 ]
 SYNTHETIC_APPLICATIONS = [
-    ApplicationSummary(id="demo-app-001", program_id="demo-oc-downpayment", status="HUMAN_REVIEW_DEMO", applicant_label="Fictional buyer A")
+    ApplicationSummary(id="demo-app-001", program_id="demo-oc-downpayment", status="INCOMPLETE_DOCUMENTS_DEMO",
+        applicant_label="Fictional buyer A", missing_documents=["Income verification", "Photo ID"],
+        updated_at="2026-11-01T16:00:00Z", last_reviewed_by=None)
 ]

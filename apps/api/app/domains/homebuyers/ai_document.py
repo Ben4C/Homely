@@ -1,5 +1,6 @@
 """Dev 1: AI-assisted applicant document readiness (no automated determination)."""
-from pydantic import BaseModel, Field
+import base64
+from pydantic import BaseModel, Field, model_validator
 from app.core.claude_client import SourceDocument, document_blocks, claude_json
 
 
@@ -7,6 +8,18 @@ class DocumentReviewRequest(BaseModel):
     source: SourceDocument
     document_type: str = Field(min_length=1, max_length=100)
     required_items: list[str] = Field(min_length=1, max_length=15)
+
+    @model_validator(mode="after")
+    def validate_review_inputs(self) -> "DocumentReviewRequest":
+        self.document_type = self.document_type.strip()
+        self.required_items = [item.strip() for item in self.required_items if item.strip()]
+        if not self.document_type or not self.required_items:
+            raise ValueError("Document type and at least one nonempty required item are required")
+        if self.source.pdf_base64:
+            payload = base64.b64decode(self.source.pdf_base64)
+            if b"%%EOF" not in payload[-1024:]:
+                raise ValueError("The uploaded file is not a complete PDF")
+        return self
 
 
 class ExtractedFact(BaseModel):

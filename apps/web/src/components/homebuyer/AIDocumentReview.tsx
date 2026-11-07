@@ -1,56 +1,78 @@
 "use client";
+
 import { useState } from "react";
 import { apiPost } from "@/lib/api";
 import { readPdfBase64 } from "@/lib/documentUpload";
 import type { DocumentReviewRequest, DocumentReviewResponse, SourceDocument } from "@homely/contracts/ai";
+import styles from "./Homebuyer.module.css";
 
-/**
- * Purpose: Let a resident examine SAMPLE application documents for completeness using Claude.
- * Inputs: Pasted sample text or PDF, consent checkbox, document type, expected checklist.
- * Outputs: AI-extracted facts and possible gaps; never legal eligibility or application submission.
- * TODO(prod): Login + document vault, secure retention/deletion, authorized reviewer handoff.
+/** Purpose: Collect explicit consent and analyze a redacted sample document for readiness.
+ * Inputs: One text or <=4 MiB PDF, document kind, required checklist, and per-request consent.
+ * Outputs: Claude's advisory facts, evidence excerpts, gaps, uncertainties, and next steps.
  */
 export function AIDocumentReview() {
-  const [text, setText] = useState("Sample employer letter: Employee is employed full-time since Jan 2025. No salary stated.");
-  const [pdf, setPdf] = useState<File|null>(null);
-  const [kind,setKind] = useState("Employment verification letter");
-  const [requirements,setRequirements] = useState("Current employment status\nAnnual income\nLetter date");
-  const [consent,setConsent] = useState(false);
-  const [result,setResult] = useState<DocumentReviewResponse|null>(null);
-  const [error,setError] = useState<string|null>(null);
-  const [busy,setBusy] = useState(false);
+  const [text, setText] = useState("");
+  const [pdf, setPdf] = useState<File | null>(null);
+  const [kind, setKind] = useState("Income verification document");
+  const [requirements, setRequirements] = useState("Current document date\nHousehold income\nApplicant name or redacted identifier");
+  const [consent, setConsent] = useState(false);
+  const [result, setResult] = useState<DocumentReviewResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
-  /** Inputs: local form + optional PDF. Outputs: structured review state or sanitized API error. */
+  /** Purpose: Validate the selected source locally and call the server-only Claude review route.
+   * Inputs: Current component fields and consent checkbox.
+   * Outputs: Structured review or a sanitized API/provider error.
+   */
   async function analyze() {
     setBusy(true); setError(null); setResult(null);
     try {
-      const source: SourceDocument = {source_label:pdf?.name??"Sample applicant statement",consent_to_send_to_claude:consent};
-      if(pdf) source.pdf_base64 = await readPdfBase64(pdf);
+      const items = requirements.split("\n").map(item => item.trim()).filter(Boolean);
+      if (!items.length) throw new Error("Add at least one document requirement to review.");
+      const source: SourceDocument = { source_label: pdf?.name ?? "Redacted pasted document text", consent_to_send_to_claude: consent };
+      if (pdf) source.pdf_base64 = await readPdfBase64(pdf);
       else source.document_text = text;
-      const body: DocumentReviewRequest = {source, document_type:kind,
-        required_items:requirements.split("\n").map(x=>x.trim()).filter(Boolean)};
-      setResult(await apiPost<DocumentReviewRequest,DocumentReviewResponse>("/homebuyers/ai-document-review",body));
-    } catch(e) { setError(e instanceof Error ? e.message : "Claude analysis unavailable"); }
-    finally { setBusy(false); }
+      const body: DocumentReviewRequest = { source, document_type: kind.trim(), required_items: items };
+      setResult(await apiPost<DocumentReviewRequest, DocumentReviewResponse>("/homebuyers/ai-document-review", body));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Claude analysis is unavailable.");
+    } finally {
+      setBusy(false);
+    }
   }
 
-  return <section className="panel ai-panel" aria-label="AI document review">
-    <h2>Claude: Document readiness</h2>
-    <p className="ai-notice">Demo only. Use fictional or redacted information. Documents are sent to the backend and, only with your consent, to the Claude API. No data is saved in Homely's demo database.</p>
-    <div className="field"><label htmlFor="buyer-doc-kind">Document type</label><input id="buyer-doc-kind" value={kind} onChange={e=>setKind(e.target.value)}/></div>
-    <div className="field"><label htmlFor="buyer-doc-checklist">Required evidence (one per line)</label>
-      <textarea id="buyer-doc-checklist" value={requirements} onChange={e=>setRequirements(e.target.value)}/></div>
-    <div className="field"><label htmlFor="buyer-doc-pdf">PDF (optional, up to 4 MiB)</label>
-      <input id="buyer-doc-pdf" type="file" accept="application/pdf,.pdf" onChange={e=>setPdf(e.target.files?.[0]??null)}/></div>
-    {!pdf && <div className="field"><label htmlFor="buyer-doc-text">Sample document text</label>
-      <textarea id="buyer-doc-text" value={text} onChange={e=>setText(e.target.value)}/></div>}
-    <label className="checkline"><input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)}/> I consent to sending this redacted/sample document to Claude for analysis.</label>
-    <button disabled={busy||!consent||(!pdf&&!text.trim())} onClick={analyze}>{busy?"Analyzing…":"Review document with Claude"}</button>
-    {error && <p className="error" role="alert">{error}</p>}
-    {result && <div className="item" role="status"><p className="small">{result.disclaimer}</p>
-      <h3>Extracted facts</h3>{result.extracted_facts.map((f,i)=><div className="item" key={i}><strong>{f.label}: {f.value}</strong><div className="code-quote">Evidence: {f.evidence_excerpt}</div></div>)}
-      <h3>Possible missing items</h3><ul>{result.potentially_missing_items.map((x,i)=><li key={i}>{x}</li>)}</ul>
-      <h3>Reviewer follow-up</h3><ul>{[...result.inconsistencies_to_check,...result.next_steps].map((x,i)=><li key={i}>{x}</li>)}</ul>
+  function choosePdf(file: File | undefined) {
+    setError(null); setResult(null);
+    if (!file) { setPdf(null); return; }
+    if (file.type !== "application/pdf" || !file.name.toLowerCase().endsWith(".pdf")) {
+      setPdf(null); setError("Choose a PDF file only."); return;
+    }
+    if (file.size > 4 * 1024 * 1024) {
+      setPdf(null); setError("PDF must be 4 MiB or smaller."); return;
+    }
+    setPdf(file);
+  }
+
+  return <section className={`${styles.card} ${styles.aiCard}`} aria-label="AI document readiness review">
+    <span className={styles.eyebrow}>OPTIONAL · AI ASSISTED</span><h2>Document readiness review</h2>
+    <p>Claude can help spot facts and possible gaps. Results are not verified citations or an eligibility decision. With consent, your document is sent to the Homely backend and Claude for this review. Homely does not save it; Claude’s own data handling and retention terms may apply.</p>
+    <div className={styles.warning}><strong>Protect your privacy:</strong> Use fictional or redacted material only. Remove Social Security numbers, bank account and routing numbers, full birth dates, signatures, and other sensitive details before pasting or uploading.</div>
+    <div className={styles.field}><label htmlFor="hb-doc-kind">Document type</label><input id="hb-doc-kind" value={kind} maxLength={100} onChange={e => setKind(e.target.value)} /></div>
+    <div className={styles.field}><label htmlFor="hb-doc-requirements">Required evidence (one item per line)</label><textarea id="hb-doc-requirements" value={requirements} onChange={e => setRequirements(e.target.value)} rows={4} /></div>
+    <div className={styles.field}><label htmlFor="hb-doc-pdf">Upload redacted PDF (up to 4 MiB)</label>
+      <input id="hb-doc-pdf" type="file" accept="application/pdf,.pdf" onChange={e => choosePdf(e.target.files?.[0])} />
+      {pdf && <div className={styles.fileLine}><span>{pdf.name} · {(pdf.size / 1024).toFixed(0)} KiB</span><button type="button" className={styles.textButton} onClick={() => { setPdf(null); const input = document.getElementById("hb-doc-pdf") as HTMLInputElement | null; if (input) input.value = ""; }}>Remove PDF</button></div>}
+    </div>
+    {!pdf && <div className={styles.field}><label htmlFor="hb-doc-text">Or paste redacted document text</label><textarea id="hb-doc-text" value={text} maxLength={40000} onChange={e => setText(e.target.value)} rows={7} placeholder="Paste only fictional or carefully redacted text" /></div>}
+    <label className={styles.consent}><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /> I consent to sending this redacted sample to Claude for this review.</label>
+    <button type="button" className={styles.button} disabled={busy || !consent || !kind.trim() || (!pdf && !text.trim())} onClick={analyze}>{busy ? "Reviewing document…" : "Review document"}</button>
+    {error && <p className={styles.error} role="alert">{error}</p>}
+    {result && <div className={styles.reviewResult} role="status">
+      <div className={styles.notice}>{result.disclaimer} A person must verify every result against the original document and program rules.</div>
+      <h3>Extracted facts</h3>{result.extracted_facts.length ? result.extracted_facts.map((fact, i) => <article className={styles.fact} key={`${fact.label}-${i}`}><strong>{fact.label}: {fact.value}</strong><blockquote>“{fact.evidence_excerpt}”</blockquote></article>) : <p className={styles.empty}>No supported facts were extracted.</p>}
+      <div className={styles.resultColumns}><div><h3>Potentially missing</h3>{result.potentially_missing_items.length ? <ul>{result.potentially_missing_items.map((item, i) => <li key={`${item}-${i}`}>{item}</li>)}</ul> : <p>No potential gaps identified.</p>}</div>
+        <div><h3>Uncertain information</h3>{result.inconsistencies_to_check.length ? <ul>{result.inconsistencies_to_check.map((item, i) => <li key={`${item}-${i}`}>{item}</li>)}</ul> : <p>No inconsistencies flagged.</p>}</div></div>
+      <h3>Suggested next steps</h3><ul>{result.next_steps.map((step, i) => <li key={`${step}-${i}`}>{step}</li>)}</ul>
     </div>}
   </section>;
 }

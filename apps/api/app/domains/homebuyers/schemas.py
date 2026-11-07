@@ -23,6 +23,9 @@ class MatchResult(BaseModel):
     outcome: Literal["NEEDS_MANUAL_REVIEW", "OUTSIDE_SERVICE_AREA"]
     explanations: list[str]
     verified_open: bool = False
+    source_url: str | None = None
+    last_verified_at: str | None = None
+    availability: str = "UNKNOWN"
 
 
 class MatchResponse(BaseModel):

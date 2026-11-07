@@ -1,5 +1,5 @@
-import { ProgramRuleExtractor } from "@/components/manager/ProgramRuleExtractor";
 "use client";
+import { ProgramRuleExtractor } from "@/components/manager/ProgramRuleExtractor";
 import { useEffect, useState } from "react";
 import { apiGet, apiPost } from "@/lib/api";
 import { Status } from "@/components/shared/Status";
@@ -51,7 +51,9 @@ export function ManagerDashboard() {
       </div>)}
     </section>
     <section className="panel"><h2>Review queue</h2>{applications?.applications.map(a=><div className="item" key={a.id}>
-      <h3>{a.applicant_label}</h3><p className="small">{a.program_id}</p><span className="pill">{a.status}</span>
+      <h3>{a.applicant_label}</h3><p className="small">{a.program_id}</p><span className="pill">{a.status.replaceAll("_"," ")}</span>
+      {a.missing_documents.length>0&&<><h4>Incomplete documents</h4><ul>{a.missing_documents.map((doc,i)=><li key={i}>{doc}</li>)}</ul></>}
+      <p className="small muted">Last updated: {a.updated_at??"Not recorded"} · Reviewer: {a.last_reviewed_by??"Not assigned"}</p>
     </div>)}{message && <p role="status" className="success">{message}</p>}
       <p className="small muted">Production work: private applicant review, rule versioning, staff access controls, finance ledger integration.</p>
     </section>
