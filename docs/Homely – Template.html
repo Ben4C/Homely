@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Homely – Template GUI</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF6F0;--card:#fffdfb;--ink:#4a3628;--mute:#7a675a;--line:#E3DAD1;--brand:#765640;--brand-ink:#FFF6F0;--sun:#B59577;--head:#765640;--sage:#868F6D;--warn:#a2512b;--ok:#5c6646;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1f18;--card:#36291f;--ink:#FFF6F0;--mute:#c9b8a8;--line:#4d3d30;--brand:#B59577;--brand-ink:#2a1f18;--sun:#868F6D;--head:#3f2f24;--sage:#868F6D;--warn:#e0a07a;--ok:#b5c094}}
+:root[data-theme="dark"]{--bg:#2a1f18;--card:#36291f;--ink:#FFF6F0;--mute:#c9b8a8;--line:#4d3d30;--brand:#B59577;--brand-ink:#2a1f18;--sun:#868F6D;--head:#3f2f24;--sage:#868F6D;--warn:#e0a07a;--ok:#b5c094}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Source Sans 3",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0 0 .4em;line-height:1.15}
+h1{font-size:1.7rem}h2{font-size:1.25rem}h3{font-size:1.05rem}
+header{background:var(--head);color:#fff;padding:14px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.logo{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.4rem;display:flex;gap:8px;align-items:center}
+.logo svg{width:36px;height:36px;flex:none}.logo span{letter-spacing:.01em;font-size:1.55rem}
+nav{display:flex;gap:4px;background:rgba(255,255,255,.12);padding:4px;border-radius:999px;flex-wrap:wrap}
+nav button{border:0;background:none;color:#fff;padding:7px 16px;border-radius:999px;font:inherit;cursor:pointer}
+nav button[aria-selected=true]{background:var(--sun);color:#2a1f18;font-weight:600}
+nav button:disabled{opacity:.5;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+main{max-width:1060px;margin:0 auto;padding:22px 18px 60px}
+.lede{color:var(--mute);max-width:62ch;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:20px;align-items:start}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+.stack>*+*{margin-top:14px}
+label{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+input,select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.btn{border:0;background:var(--brand);color:var(--brand-ink);padding:9px 16px;border-radius:6px;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
+.btn.sm{padding:5px 11px;font-size:.88rem}
+.tag{display:inline-block;font-size:.8rem;padding:2px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--mute)}
+.tag.ok{color:var(--ok);border-color:var(--ok)}.tag.warn{color:var(--warn);border-color:var(--warn)}
+.prog{border-top:1px solid var(--line);padding:14px 0;display:flex;gap:14px;justify-content:space-between;flex-wrap:wrap}
+.prog:first-of-type{border-top:0}
+.prog p{margin:2px 0;color:var(--mute);font-size:.93rem}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar span{display:block;height:100%;background:var(--sage)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.steps{display:flex;gap:6px;margin-top:8px}
+.steps span{flex:1;font-size:.78rem;text-align:center;padding:5px 2px;border-radius:5px;background:var(--bg);border:1px solid var(--line);color:var(--mute)}
+.steps span.done{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.empty{color:var(--mute);padding:10px 0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--head);color:#fff;padding:10px 18px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+.note{font-size:.82rem;color:var(--mute);margin-top:24px}
+.link{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--brand);text-decoration:underline;cursor:pointer}
+.backdrop{position:fixed;inset:0;background:rgba(40,28,20,.55);display:flex;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));z-index:20}
+.modal{background:var(--card);border:1px solid var(--line);border-radius:12px;max-width:580px;width:100%;max-height:100%;overflow:auto;padding:22px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:16px 0}
+.facts label{color:var(--mute);font-weight:400;font-size:.82rem;margin:0}
+.sect{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.logo{cursor:pointer}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(22px,5vw,48px);margin-bottom:30px}
+.hero h1{font-size:clamp(2rem,5vw,3.1rem);max-width:20ch;margin-bottom:.35em}
+.hero p{max-width:56ch;color:var(--mute);font-size:1.1rem;margin:0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.cols3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:12px 0 32px}
+.flow{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 32px}
+.flow .card{flex:1;min-width:200px}
+.flow .arr{align-self:center;color:var(--mute);font-size:1.5rem}
+.card ul{margin:8px 0 14px;padding-left:18px;color:var(--mute)}
+.card p{margin:0}
+h2.sec{font-size:1.5rem;margin-top:8px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+@media(max-width:760px){.hero-grid{grid-template-columns:1fr}}
+.art{width:100%;height:auto;display:block;border-radius:14px;overflow:hidden}
+.sky{fill:var(--line)}
+.ico{width:44px;height:44px;display:block;margin-bottom:8px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" aria-label="Homely"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M29.5 5.5c-2.2-1.3-2.2-2.7 0-3.9" fill="none" stroke="#FFF6F0" stroke-width="1.6" stroke-linecap="round" opacity=".7"/><rect x="26.5" y="8" width="5.5" height="10" rx="1.6" fill="#B59577"/><rect x="7" y="18" width="26" height="18" rx="5" fill="#B59577"/><path d="M4 21.5L20 8l16 13.5" fill="none" stroke="#FFF6F0" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="26" width="6" height="10" rx="3" fill="#765640"/><rect x="10.5" y="22.5" width="4.8" height="4.8" rx="1.6" fill="#FFE3A8"/><rect x="24.7" y="22.5" width="4.8" height="4.8" rx="1.6" fill="#FFE3A8"/></svg><span>homely</span></div>
+  <nav role="tablist" id="tabs">
+    <button role="tab" data-v="home" aria-selected="true">Home</button>
+    <button role="tab" data-v="recipient" aria-selected="false">Find help</button>
+    <button role="tab" data-v="donor" aria-selected="false">Give</button>
+    <button role="tab" data-v="manager" aria-selected="false">Manage funds</button>
+    
+  </nav>
+</header>
+<main id="app"></main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const S={
+  profile:{first:'yes',income:60000,city:'Anaheim',credit:680,urgency:'now'},
+  selected:[],
+  programs:[
+    {id:1,name:'CalHome Down Payment Assistance',org:'State of California',level:'State',max:110000,cities:['all'],credit:640,first:true,left:420000,total:1000000,deadline:'2026-12-15',active:2,url:'#'},
+    {id:2,name:'HOME Investment Partnership',org:'City of Anaheim',level:'Local',max:75000,cities:['Anaheim'],credit:0,first:false,left:150000,total:600000,deadline:'2026-11-30',active:5,url:'#'},
+    {id:3,name:'Orange County Housing Access Fund',org:'211 Orange County',level:'Local',max:90000,cities:['Anaheim','Santa Ana','Irvine','Fullerton'],credit:600,first:false,left:310000,total:500000,deadline:'2027-02-01',active:1,url:'#'},
+    {id:4,name:'Federal Mortgage Credit Certificate',org:'U.S. HUD',level:'Federal',max:140000,cities:['all'],credit:660,first:true,left:900000,total:2000000,deadline:'2027-06-30',active:12,url:'#'},
+    {id:5,name:'Neighbors Rent Relief',org:'Hope Housing Nonprofit',level:'Nonprofit',max:45000,cities:['Santa Ana','Anaheim'],credit:0,first:false,left:38000,total:200000,deadline:'2026-11-20',active:3,url:'#'}
+  ],
+  pledges:[],
+  requests:[
+    {id:1,who:'Maria Alvarez',city:'Anaheim',income:52000,ask:25000,status:'Pending',email:'m.alvarez@example.com',phone:'(714) 555-0142',household:4,credit:668,first:'Yes',job:'Dental assistant, full time',program:'CalHome Down Payment Assistance',date:'Nov 3, 2026',urgency:'Right away',docs:[['Pay stubs',true],['Tax return',true],['Photo ID',true],['Bank statements',false]],note:'Currently renting. Landlord is selling the building.'},
+    {id:2,who:'Jin Kim',city:'Irvine',income:81000,ask:18000,status:'Pending',email:'jin.kim@example.com',phone:'(949) 555-0187',household:2,credit:705,first:'No',job:'Software tester, full time',program:'HOME Investment Partnership',date:'Nov 5, 2026',urgency:'Within 6 months',docs:[['Pay stubs',true],['Tax return',true],['Photo ID',true],['Bank statements',true]],note:'Looking to buy a condo near work.'},
+    {id:3,who:'Tamara Brooks',city:'Santa Ana',income:39000,ask:9000,status:'Pending',email:'t.brooks@example.com',phone:'(657) 555-0121',household:3,credit:590,first:'No',job:'Home health aide, part time',program:'Neighbors Rent Relief',date:'Nov 6, 2026',urgency:'Right away',docs:[['Pay stubs',true],['Lease agreement',true],['Photo ID',false]],note:'Two months behind on rent after hours were cut.'}
+  ],
+  view:'home'
+};
+const $=s=>document.querySelector(s);
+const money=n=>'$'+Number(n).toLocaleString();
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2200)}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function check(p,u){
+  const why=[];
+  if(u.income>p.max)why.push('Income above '+money(p.max));
+  if(!p.cities.includes('all')&&!p.cities.includes(u.city))why.push('Not offered in '+u.city);
+  if(u.credit<p.credit)why.push('Credit score below '+p.credit);
+  if(p.first&&u.first!=='yes')why.push('First-time buyers only');
+  return why;
+}
+function days(d){return Math.ceil((new Date(d)-new Date('2026-11-07'))/864e5)}
+
+/* ---------- Recipient ---------- */
+function recipient(){
+  const u={first:S.profile.first,income:+S.profile.income,city:S.profile.city,credit:+S.profile.credit};
+  let rows=S.programs.map(p=>({p,why:check(p,u)}));
+  const ok=rows.filter(r=>!r.why.length), no=rows.filter(r=>r.why.length);
+  if(S.profile.urgency==='now')ok.sort((a,b)=>days(a.p.deadline)-days(b.p.deadline));
+  const card=(r,eligible)=>{const p=r.p,sel=S.selected.includes(p.id),d=days(p.deadline);
+    return `<div class="prog"><div style="flex:1;min-width:220px"><h3>${esc(p.name)}</h3>
+    <p>${esc(p.org)} · ${p.level}</p>
+    <p>${eligible?`${money(p.left)} left · closes in ${d} days`:'<span class="tag warn">'+esc(r.why.join('; '))+'</span>'}</p>
+    ${eligible?`<div class="bar"><span style="width:${100*p.left/p.total}%"></span></div>`:''}
+    <p><span class="tag ${p.active<=7?'ok':'warn'}">Last active ${p.active} day${p.active==1?'':'s'} ago</span> <a href="${p.url}" style="color:var(--brand)">Official page</a></p></div>
+    ${eligible?`<div><button class="btn sm ${sel?'ghost':''}" data-sel="${p.id}">${sel?'Remove':'Select program'}</button></div>`:''}</div>`};
+  return `<h1>Find housing help you qualify for</h1>
+  <p class="lede">Tell us a few basics. We show local, state, and federal programs that fit, with the most urgent first.</p>
+  <div class="grid"><form class="card stack" id="pf" onsubmit="return false">
+    <h2>Your profile</h2>
+    <div><label for="f1">First-time homeowner?</label><select id="f1" name="first"><option value="yes">Yes</option><option value="no">No</option></select></div>
+    <div><label for="f2">Household income (per year)</label><input id="f2" name="income" type="number" step="1000" min="0"></div>
+    <div><label for="f3">City you live in</label><select id="f3" name="city">${['Anaheim','Santa Ana','Irvine','Fullerton','Garden Grove'].map(c=>`<option>${c}</option>`).join('')}</select></div>
+    <div><label for="f4">Credit score</label><input id="f4" name="credit" type="number" min="300" max="850"></div>
+    <div><label for="f5">How soon do you need help?</label><select id="f5" name="urgency"><option value="now">Right away</option><option value="soon">Within 6 months</option><option value="later">Just exploring</option></select></div>
+    <div class="note" style="margin:0">Selected: ${S.selected.length?S.selected.map(id=>esc(S.programs.find(p=>p.id===id).name)).join(', '):'none yet'}</div>
+    ${S.selected.length?'<button class="btn" id="apply">Apply to selected ('+S.selected.length+')</button>':''}
+  </form>
+  <div class="stack"><div class="card"><h2>${ok.length} programs match</h2>${ok.length?ok.map(r=>card(r,true)).join(''):'<p class="empty">No matches yet. Try changing your city or income.</p>'}</div>
+  ${no.length?`<div class="card"><h2>Not a fit right now</h2>${no.map(r=>card(r,false)).join('')}</div>`:''}</div></div>`;
+}
+
+/* ---------- Donor ---------- */
+function donor(){
+  const orgs=[...new Set(S.programs.map(p=>p.org))];
+  const stages=['Received','Verified','Assigned','Paid out'];
+  return `<h1>Give, then follow your money</h1>
+  <p class="lede">Choose where your gift goes. A hands-off queue moves it from you to a verified program to a household, and you see each step.</p>
+  <div class="grid"><form class="card stack" id="df" onsubmit="return false">
+    <h2>Make a pledge</h2>
+    <div><label for="d1">Your name</label><input id="d1" value="Jordan Lee"></div>
+    <div><label for="d2">Amount</label><input id="d2" type="number" value="500" min="1"></div>
+    <div><label for="d3">Focus</label><select id="d3"><option>Down payments</option><option>Monthly rent relief</option><option>Wherever it's needed most</option></select></div>
+    <div><label for="d4">Send to</label><select id="d4">${orgs.map(o=>`<option>${esc(o)}</option>`).join('')}</select></div>
+    <button class="btn" id="pledge">Send pledge</button>
+  </form>
+  <div class="card"><h2>Your giving queue</h2>
+  ${S.pledges.length?S.pledges.map(g=>`<div class="prog" style="display:block"><div class="row" style="justify-content:space-between"><strong>${money(g.amt)} to ${esc(g.org)}</strong><span class="tag">${esc(g.focus)}</span></div>
+  <div class="steps">${stages.map((s,i)=>`<span class="${i<=g.step?'done':''}">${s}</span>`).join('')}</div></div>`).join('')+'<button class="btn ghost sm" id="adv" style="margin-top:10px">Advance queue (demo)</button>':'<p class="empty">No pledges yet. Your first one will appear here.</p>'}
+  </div></div>`;
+}
+
+/* ---------- Manager ---------- */
+function manager(){
+  const committed=S.programs.reduce((a,p)=>a+(p.total-p.left),0), left=S.programs.reduce((a,p)=>a+p.left,0);
+  return `<h1>Manage your programs</h1>
+  <p class="lede">Set who qualifies, keep deadlines and remaining funds current, and review incoming requests.</p>
+  <div class="row" style="margin-bottom:20px;flex-wrap:wrap">
+    <div class="card"><label>Funds remaining</label><h2>${money(left)}</h2></div>
+    <div class="card"><label>Committed so far</label><h2>${money(committed)}</h2></div>
+    <div class="card"><label>Requests waiting</label><h2>${S.requests.filter(r=>r.status==='Pending').length}</h2></div></div>
+  <div class="grid"><form class="card stack" id="mf" onsubmit="return false">
+    <h2>Post or update a program</h2>
+    <div><label for="m1">Program name</label><input id="m1" placeholder="e.g. First Home Grant"></div>
+    <div><label for="m2">Organization</label><input id="m2" placeholder="Your organization"></div>
+    <div class="row"><div><label for="m3">Max income</label><input id="m3" type="number" value="80000"></div><div><label for="m4">Min credit</label><input id="m4" type="number" value="620"></div></div>
+    <div><label for="m5">City served</label><select id="m5"><option>all</option><option>Anaheim</option><option>Santa Ana</option><option>Irvine</option><option>Fullerton</option></select></div>
+    <div class="row"><div><label for="m6">Funds available</label><input id="m6" type="number" value="100000"></div><div><label for="m7">Deadline</label><input id="m7" type="date" value="2027-01-31"></div></div>
+    <div><label for="m8">Official page link</label><input id="m8" type="url" placeholder="https://"></div>
+    <button class="btn" id="post">Publish program</button>
+  </form>
+  <div class="stack"><div class="card"><h2>Incoming requests</h2><p class="note" style="margin:0 0 8px">Select a name to see the full application.</p><div class="table-wrap"><table>
+    <tr><th>Applicant</th><th>City</th><th>Income</th><th>Request</th><th>Status</th><th></th></tr>
+    ${S.requests.map(r=>`<tr><td><button class="link" data-open="${r.id}">${esc(r.who)}</button></td><td>${r.city}</td><td>${money(r.income)}</td><td>${money(r.ask)}</td><td><span class="tag ${r.status==='Accepted'?'ok':r.status==='Pending'?'':'warn'}">${r.status}</span></td>
+    <td>${r.status==='Pending'?`<button class="btn sm" data-act="Accepted" data-id="${r.id}">Accept</button> <button class="btn sm ghost" data-act="Declined" data-id="${r.id}">Decline</button> <button class="btn sm ghost" data-act="Needs info" data-id="${r.id}">Ask for info</button>`:''}</td></tr>`).join('')}
+  </table></div></div>
+  <div class="card"><h2>Your listings</h2>${S.programs.map(p=>`<div class="prog"><div style="flex:1"><h3>${esc(p.name)}</h3><p>${esc(p.org)} · income up to ${money(p.max)} · ${money(p.left)} of ${money(p.total)} left</p><div class="bar"><span style="width:${100*p.left/p.total}%"></span></div></div></div>`).join('')}</div></div></div>`;
+}
+
+function home(){
+  const house=(x,y,w,h,body,roof)=>{const win=w*0.2;return `<g><polygon points="${x-8},${y+4} ${x+w/2},${y-h*0.6} ${x+w+8},${y+4}" fill="${roof}" stroke="${roof}" stroke-width="4" stroke-linejoin="round"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${body}"/><rect x="${x+w/2-w*0.08}" y="${y+h*0.55}" width="${w*0.16}" height="${h*0.45}" rx="${w*0.08}" fill="#765640"/><rect x="${x+w*0.12}" y="${y+h*0.22}" width="${win}" height="${win}" rx="3" fill="#FFE3A8"/><rect x="${x+w*0.68}" y="${y+h*0.22}" width="${win}" height="${win}" rx="3" fill="#FFE3A8"/></g>`};
+  const tree=(x,y)=>`<rect x="${x-3}" y="${y-14}" width="6" height="16" fill="#765640"/><circle cx="${x}" cy="${y-26}" r="16" fill="#6b7556"/>`;
+  const art=`<svg class="art" viewBox="0 0 400 280" role="img" aria-label="Illustration of a small neighborhood of cozy houses"><rect width="400" height="280" class="sky"/><circle cx="326" cy="62" r="26" fill="#B59577"/><path d="M0 215Q110 168 230 204T400 188V280H0Z" fill="#868F6D"/>${house(34,166,78,54,'#B59577','#765640')}${house(292,172,68,48,'#B59577','#765640')}${house(146,128,110,92,'#FFF6F0','#765640')}${tree(128,222)}${tree(276,224)}<path d="M193 220h24l14 60h-52z" fill="#E3DAD1"/></svg>`;
+  const ico={
+    res:`<svg class="ico" viewBox="0 0 44 44" aria-hidden="true"><path d="M6 22L22 8l16 14" fill="none" stroke="#765640" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="10" y="22" width="24" height="16" rx="4" fill="#B59577"/><rect x="19" y="28" width="6" height="10" rx="3" fill="#765640"/></svg>`,
+    don:`<svg class="ico" viewBox="0 0 44 44" aria-hidden="true"><path d="M22 38C8 28 5 18 10 12c4-4 10-2 12 3 2-5 8-7 12-3 5 6 2 16-12 26z" fill="#B59577"/></svg>`,
+    man:`<svg class="ico" viewBox="0 0 44 44" aria-hidden="true"><rect x="9" y="7" width="26" height="31" rx="4" fill="#B59577"/><rect x="16" y="4" width="12" height="7" rx="3" fill="#765640"/><path d="M15 24l5 5 9-10" fill="none" stroke="#FFF6F0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`};
+  return `<section class="hero">
+    <div class="hero-grid"><div><h1>Housing help, matched to the people who need it.</h1>
+    <p>Homely brings local, state, and federal housing programs into one place. Residents see what they qualify for, donors see where their money goes, and funding managers keep their programs current.</p>
+    <div class="cta"><button class="btn" data-go="recipient">Find help I qualify for</button><button class="btn ghost" data-go="donor">Give to a program</button></div></div>${art}</div>
+  </section>
+  <h2 class="sec">The problem we’re solving</h2>
+  <div class="cols3">
+    <div class="card"><h3>Funding is limited</h3><p>There is only so much money to go around, so every dollar needs to reach someone who qualifies.</p></div>
+    <div class="card"><h3>Rules are confusing</h3><p>Each program has its own income limits, locations, and requirements. Most people can’t tell where they fit.</p></div>
+    <div class="card"><h3>Matching is slow</h3><p>Connecting eligible people to open programs takes too many forms, phone calls, and dead ends.</p></div>
+  </div>
+  <h2 class="sec">How the money moves</h2>
+  <div class="flow">
+    <div class="card"><h3>Donors</h3><p>Give to the organizations you choose.</p></div><div class="arr" aria-hidden="true">→</div>
+    <div class="card"><h3>Funding managers</h3><p>Set the rules, track what’s left, and review requests.</p></div><div class="arr" aria-hidden="true">→</div>
+    <div class="card"><h3>Eligible residents</h3><p>Get matched to programs for rent or a first home.</p></div>
+  </div>
+  <h2 class="sec">Built for everyone involved</h2>
+  <div class="cols3">
+    <div class="card">${ico.res}<h3>Residents</h3><ul><li>One profile, matched to programs automatically</li><li>See why you do or don’t qualify</li><li>Most urgent deadlines first</li></ul><button class="btn sm" data-go="recipient">Find help</button></div>
+    <div class="card">${ico.don}<h3>Donors</h3><ul><li>Pick the organizations you want to support</li><li>Follow each gift through a simple queue</li><li>See exactly where it goes</li></ul><button class="btn sm" data-go="donor">Make a pledge</button></div>
+    <div class="card">${ico.man}<h3>Funding managers</h3><ul><li>Publish programs with exact eligibility rules</li><li>Post deadlines and remaining funds</li><li>Accept, decline, or ask for more information</li></ul><button class="btn sm" data-go="manager">Manage programs</button></div>
+  </div>
+  `;
+}
+function modal(){
+  if(S.view!=='manager'||!S.open)return '';
+  const r=S.requests.find(x=>x.id===S.open);if(!r)return '';
+  const p=S.programs.find(x=>x.name===r.program);
+  const why=p?check(p,{first:r.first.toLowerCase(),income:r.income,city:r.city,credit:r.credit}):[];
+  const f=(k,v)=>`<div><label>${k}</label><div>${esc(v)}</div></div>`;
+  return `<div class="backdrop" data-close=""><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><h2 id="mt">${esc(r.who)}</h2><span class="tag ${r.status==='Accepted'?'ok':r.status==='Pending'?'':'warn'}">${r.status}</span> <span class="tag">Applied ${esc(r.date)}</span></div><button class="btn ghost sm" id="x" data-close="">Close</button></div>
+  <div class="facts">${f('Email',r.email)}${f('Phone',r.phone)}${f('City',r.city)}${f('Household size',r.household+' people')}${f('Annual income',money(r.income))}${f('Credit score',r.credit)}${f('First-time homeowner',r.first)}${f('Work',r.job)}${f('Need help',r.urgency)}</div>
+  <div class="sect"><h3>Request</h3><p style="margin:0"><strong>${money(r.ask)}</strong> from ${esc(r.program)}</p><p class="note" style="margin:6px 0 0">${esc(r.note)}</p></div>
+  <div class="sect"><h3>Rule check</h3>${why.length?why.map(w=>`<span class="tag warn">${esc(w)}</span> `).join(''):'<span class="tag ok">Meets all rules for this program</span>'}</div>
+  <div class="sect"><h3>Documents</h3>${r.docs.map(d=>`<p style="margin:4px 0">${esc(d[0])} <span class="tag ${d[1]?'ok':'warn'}">${d[1]?'Received':'Missing'}</span></p>`).join('')}</div>
+  ${r.status==='Pending'?`<div class="sect" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="Accepted" data-id="${r.id}">Accept</button><button class="btn ghost" data-act="Declined" data-id="${r.id}">Decline</button><button class="btn ghost" data-act="Needs info" data-id="${r.id}">Ask for info</button></div>`:''}
+  </div></div>`;
+}
+function render(){
+  document.querySelectorAll('#tabs button[data-v]').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===S.view));
+  $('#app').innerHTML=({home,recipient,donor,manager}[S.view])()+'<p class="note">Template with sample data. Programs, rules, and amounts are placeholders.</p>'+modal();
+  const xb=$('#x');if(xb)xb.focus();
+  if(S.view==='recipient'){const f=$('#pf');for(const k in S.profile)f.elements[k].value=S.profile[k];}
+}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(b){S.view=b.dataset.v;render()}});
+$('#app').addEventListener('input',e=>{
+  if(e.target.closest('#pf')){const f=e.target.form;S.profile[e.target.name]=e.target.value;
+    const keep=e.target.name,pos=e.target.selectionStart;render();const el=$('#pf').elements[keep];el.focus();try{el.setSelectionRange(pos,pos)}catch(_){}}});
+$('#app').addEventListener('click',e=>{
+  const t=e.target;
+  if(t.dataset.go){S.view=t.dataset.go;render();window.scrollTo(0,0);return}
+  if(t.dataset.open){S.open=+t.dataset.open;render();return}
+  if(t.dataset.close!==undefined){S.open=null;render();return}
+  if(t.dataset.sel){const id=+t.dataset.sel,i=S.selected.indexOf(id);i<0?S.selected.push(id):S.selected.splice(i,1);render()}
+  if(t.id==='apply'){toast('Applications sent to '+S.selected.length+' program(s)');S.selected=[];render()}
+  if(t.id==='pledge'){const amt=+$('#d2').value;if(!amt)return toast('Enter an amount');S.pledges.unshift({amt,org:$('#d4').value,focus:$('#d3').value,step:0});toast('Pledge sent');render()}
+  if(t.id==='adv'){S.pledges.forEach(g=>{if(g.step<3)g.step++});render()}
+  if(t.id==='post'){const n=$('#m1').value.trim();if(!n)return toast('Add a program name');const v=+$('#m6').value;
+    S.programs.push({id:Date.now(),name:n,org:$('#m2').value||'Your organization',level:'Nonprofit',max:+$('#m3').value,cities:[$('#m5').value==='all'?'all':$('#m5').value],credit:+$('#m4').value,first:false,left:v,total:v,deadline:$('#m7').value,active:0,url:$('#m8').value||'#'});toast('Published');render()}
+  if(t.dataset.act){const r=S.requests.find(x=>x.id==t.dataset.id);r.status=t.dataset.act;S.open=null;toast(t.dataset.act==='Accepted'?'Accepted. '+money(r.ask)+' recorded':'Marked: '+t.dataset.act);
+    if(t.dataset.act==='Accepted'){const p=S.programs[0];p.left=Math.max(0,p.left-r.ask)}render()}
+});
+document.querySelector('.logo').addEventListener('click',()=>{S.view='home';S.open=null;render();window.scrollTo(0,0)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.open){S.open=null;render()}});
+render();
+</script>
+</body>
+</html>
