@@ -1,8 +1,46 @@
 # Homely — Southern California Affordable Homeownership (Claude + Sponsorship Starter v0.2)
 
-> **Scaffold / demo only.** All seeded programs, organizations, people and money amounts are **synthetic**. No live funds are transferred, no applicant is actually approved, and no source is represented as currently open.
+> Homely helps Southern California residents pursue affordable homeownership by connecting buyers, donors, employers, nonprofits, and housing developers with AI-assisted guidance and funding options.
 
+**Team:** The Agents
+**Members:** Ben Choi, Olivia Jeung, Shogo Stuck, Jim Truong, Hamza Vaid
+**Lane:** 3 Fund it
+**Built At:** Claude Impact Lab: UCI × SoCal Affordable Housing, November 7, 2026
+
+## The real user
+The primary user is a nonprofit housing finance manager or development director trying to secure enough funding to build affordable homes for eligible families.
+**Before:** They manually search through city, state, and federal funding programs, compare eligibility requirements, track changing mortgage rates, and coordinate with donors and funding organizations, making it difficult to identify available resources and close funding gaps.
+**After:** Homely brings these resources into one platform, automatically matches housing projects and eligible families with potential funding sources, and provides transparent funding tracking so managers can coordinate contributions and ensure money reaches the people who need it.
+
+## What we built
 Homely is a six-role platform spanning homebuyers, donors, employers, nonprofit funding managers, housing developers, and platform administrators. This repo gives a five-programmer team demo foundations, typed domain interfaces, route skeletons, integration contracts, tests, and non-overlapping file assignments. **New:** server-only Claude document intelligence, rule extraction and funding advice, plus corporate matching gifts and project sponsorship previews.
+
+## How Claude is used
+Claude helped plan and prototype the project: it researched income limits, a concept brief, and the Homely template site with a homepage, and drafted the backend code and tests.
+
+## Try it
+Open the Homely website using the provided website link.
+
+## Sources and assumptions
+| Item | Source or assumption | Date checked |
+| :---:        |     :---:      |         :---: |
+| Mortgage Rates  | https://www.freddiemac.com/pmms?stream=top&utm_source  | Nov 7, 2026   |
+| Income limit datase     | https://data.ca.gov/%40california-department-of-housing-and-community-development/income-limits-by-county?utm_source      | Nov 7, 2026     |
+| HOME-funded buyer income caps    | https://www.hcd.ca.gov/sites/default/files/docs/grants-and-funding/2026-california-HOME-income-limits_0.pdf       | Nov 7, 2026     |
+
+## Where it gets things wrong
+Homely may show outdated or inaccurate funding information if organizations do not regularly update their program listings, available funds, eligibility requirements, and application deadlines. The platform also cannot guarantee that someone will qualify for a program or receive funding, since final approval depends on the funding organization's review and available budget. We would not trust Homely to automatically approve applicants, distribute donations, or make final eligibility decisions without human verification. We also do not yet know how accurately the platform can match recipients with multiple funding sources or how quickly organizations would update their information.
+
+## Next steps
+For a nonprofit or city to start using Homely next month, we would first partner with one local housing organization in Orange County to upload and verify available funding programs, eligibility requirements, application deadlines, and remaining funds. We would also create a simple onboarding process for donors, funding managers, and prospective homeowners so they can begin using the platform.
+
+With one more week, we would focus on building a working prototype of Homely's main features, including the funding database, recipient eligibility matching system, and donor transparency dashboard. We would also test the platform using our synthetic housing deal and a real Orange County housing project to identify gaps, improve accuracy, and gather feedback from potential users.
+
+## Data and privacy
+This project uses only public or provided data. It contains no personal information about real tenants, buyers or residents. It does not file applications or contact any city or person.
+
+## License
+MIT, see the LICENSE file in this repo (or tell us what you chose).
 
 ## Architecture
 
