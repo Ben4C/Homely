@@ -7,11 +7,21 @@
 **Lane:** 3 Fund it
 **Built At:** Claude Impact Lab: UCI × SoCal Affordable Housing, November 7, 2026
 
+## The real user
+The primary user is a nonprofit housing finance manager or development director trying to secure enough funding to build affordable homes for eligible families.
+**Before:** They manually search through city, state, and federal funding programs, compare eligibility requirements, track changing mortgage rates, and coordinate with donors and funding organizations, making it difficult to identify available resources and close funding gaps.
+**After:** Homely brings these resources into one platform, automatically matches housing projects and eligible families with potential funding sources, and provides transparent funding tracking so managers can coordinate contributions and ensure money reaches the people who need it.
+
 ## What we built
 Homely is a six-role platform spanning homebuyers, donors, employers, nonprofit funding managers, housing developers, and platform administrators. This repo gives a five-programmer team demo foundations, typed domain interfaces, route skeletons, integration contracts, tests, and non-overlapping file assignments. **New:** server-only Claude document intelligence, rule extraction and funding advice, plus corporate matching gifts and project sponsorship previews.
 
 ## How Claude is used
 Claude helped plan and prototype the project: it researched income limits, a concept brief, and the Homely template site with a homepage, and drafted the backend code and tests.
+
+## Next steps
+For a nonprofit or city to start using Homely next month, we would first partner with one local housing organization in Orange County to upload and verify available funding programs, eligibility requirements, application deadlines, and remaining funds. We would also create a simple onboarding process for donors, funding managers, and prospective homeowners so they can begin using the platform.
+
+With one more week, we would focus on building a working prototype of Homely's main features, including the funding database, recipient eligibility matching system, and donor transparency dashboard. We would also test the platform using our synthetic housing deal and a real Orange County housing project to identify gaps, improve accuracy, and gather feedback from potential users.
 
 ## Architecture
 
