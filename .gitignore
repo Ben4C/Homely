@@ -14,3 +14,5 @@ dist/
 *.db
 
 *.tsbuildinfo
+
+apps/api/homely_api.egg-info/
