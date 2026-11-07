@@ -7,7 +7,11 @@
 **Lane:** 3 Fund it
 **Built At:** Claude Impact Lab: UCI × SoCal Affordable Housing, November 7, 2026
 
+## What we built
 Homely is a six-role platform spanning homebuyers, donors, employers, nonprofit funding managers, housing developers, and platform administrators. This repo gives a five-programmer team demo foundations, typed domain interfaces, route skeletons, integration contracts, tests, and non-overlapping file assignments. **New:** server-only Claude document intelligence, rule extraction and funding advice, plus corporate matching gifts and project sponsorship previews.
+
+## How Claude is used
+
 
 ## Architecture
 
