@@ -1,6 +1,6 @@
 # Homely — Southern California Affordable Homeownership (Claude + Sponsorship Starter v0.2)
 
-> **Scaffold / demo only.** All seeded programs, organizations, people and money amounts are **synthetic**. No live funds are transferred, no applicant is actually approved, and no source is represented as currently open.
+> Homely helps Southern California residents pursue affordable homeownership by connecting buyers, donors, employers, nonprofits, and housing developers with AI-assisted guidance and funding options.
 
 **Team:** The Agents
 **Members:** Ben Choi, Olivia Jeung, Shogo Stuck, Jim Truong, Hamza Vaid
