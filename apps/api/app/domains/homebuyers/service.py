@@ -8,14 +8,26 @@ from .schemas import HomebuyerProfile, MatchResponse, MatchResult
 # Outputs: MatchResult with explanations and conservative preliminary status.
 # TODO(prod): Versioned income limits, affordability and stackability checks, evidence requirements, lawfulness tests.
 def assess_program(profile: HomebuyerProfile, program) -> MatchResult:
+    """Assess known service geography and explain criteria that lack verified rules."""
+    explanations = [
+        "County matches the program's listed service area.",
+        "Income limit is unknown; no income eligibility conclusion can be made.",
+        "Household-size rules are unknown; manual review is required.",
+        "First-time buyer requirements are unknown; manual review is required.",
+        "Program rules and funding availability are unverified; the required document list is unknown, so missing evidence cannot be assessed yet.",
+    ]
     if profile.county.casefold() != program.county.casefold():
         return MatchResult(
             program_id=program.id, program_name=program.name, outcome="OUTSIDE_SERVICE_AREA",
-            explanations=["County does not match the example program's service area."],
+            explanations=["County does not match the listed service area; geographic eligibility is not met."],
+            source_url=program.source_url, last_verified_at=program.last_verified_at,
+            availability=program.availability,
         )
     return MatchResult(
         program_id=program.id, program_name=program.name, outcome="NEEDS_MANUAL_REVIEW",
-        explanations=["Geography appears relevant.", "Current funding and all eligibility conditions are unverified."],
+        explanations=explanations,
+        source_url=program.source_url, last_verified_at=program.last_verified_at,
+        availability=program.availability,
     )
 
 
